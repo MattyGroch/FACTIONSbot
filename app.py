@@ -14,6 +14,7 @@ logger.addHandler(handler)
 load_dotenv()
 
 bot_token = os.environ.get("BOT_TOKEN")
+announce_channel = os.environ.get("ANNOUNCE_CHANNEL_ID")
 
 intents = discord.Intents.default()
 intents.members = True
@@ -57,7 +58,7 @@ async def on_ready():
 
 @bot.event
 async def on_member_update(before, after):
-    channel = bot.get_channel(918897174971023400)
+    channel = bot.get_channel(int(announce_channel))
     if before.roles != after.roles:
         for r in after.roles:
             if r not in before.roles:
@@ -67,13 +68,12 @@ async def on_member_update(before, after):
                         emoji = R["emoji"]
                         rolename = R["name"]
                         emb = discord.Embed(
-                            title=f"{emoji} A new member has joined **{rolename}**!",
+                            title=f"{emoji} **{rolename}** have a new recruit!",
                             color=R["color"],
                             timestamp=datetime.datetime.utcnow()
                         )
                         emb.set_thumbnail(url=R["image"])
-                        emb.add_field(name="WELCOME!", value=f"Everyone give <@{after.id}> a round of applause!")
-
+                        emb.add_field(name=f"WELCOME TO {rolename.upper()}!", value=f"Say hello to <@{after.id}> and judge _not_ by which Faction they choose.")
                         await channel.send(embed=emb)
 
 
