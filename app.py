@@ -67,6 +67,7 @@ async def on_member_update(before, after):
                     if new_role_id == R["id"]:
                         emoji = R["emoji"]
                         rolename = R["name"]
+                        shortname = rolename.split(' ')[1]
                         emb = discord.Embed(
                             title=f"{emoji} **{rolename}** have a new recruit!",
                             color=R["color"],
@@ -74,6 +75,7 @@ async def on_member_update(before, after):
                         )
                         emb.set_thumbnail(url=R["image"])
                         emb.add_field(name=f"WELCOME TO {rolename.upper()}!", value=f"Say hello to <@{after.id}> and judge _not_ by which Faction they choose.")
+                        emb.set_footer(text=f"There are now {len(r.members)} {shortname} within our ranks.")
                         await channel.send(embed=emb)
 
 
