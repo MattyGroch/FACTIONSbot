@@ -24,30 +24,30 @@ roledict = [
     {
         "id": "920712472309149696",
         "name": "The Heroes",
-        "color": 0x008002,
-        "image": "https://cdn.discordapp.com/emojis/921560361331736627.png",
-        "emoji": "<:HEROES:921560361331736627>"
+        "color": 0x0ccb43,
+        "image": "https://cdn.discordapp.com/emojis/933032807511502859.png",
+        "emoji": "<:HEROES:933032807511502859>"
     },
     {
         "id": "920726315617890354",
         "name": "The Pagemasters",
-        "color": 0x00688a,
-        "image": "https://cdn.discordapp.com/emojis/921120575882133585.png",
-        "emoji": "<:PAGEMASTER:921120575882133585>"
+        "color": 0x0c8cd4,
+        "image": "https://cdn.discordapp.com/emojis/938158364511330425.png",
+        "emoji": "<:PAGEMASTER:938158364511330425>"
     },
     {
         "id": "920729205774372894",
         "name": "The Architects",
-        "color": 0xb204d3,
-        "image": "https://cdn.discordapp.com/emojis/921450094547570689.png",
-        "emoji": "<:ARCHITECT:921450094547570689>"
+        "color": 0xa30dcf,
+        "image": "https://cdn.discordapp.com/emojis/933031265907662949.png",
+        "emoji": "<:ARCHITECT:933031265907662949>"
     },
     {
         "id": "920726084507545680",
         "name": "The Guardians",
-        "color": 0xffd100,
-        "image": "https://cdn.discordapp.com/emojis/921945964158263356.png",
-        "emoji": "<:GUARDIANS:921945964158263356>"
+        "color": 0xfbe414,
+        "image": "https://cdn.discordapp.com/emojis/933952900433051700.png",
+        "emoji": "<:GUARDIANS:933952900433051700>"
     }
 ]
 
