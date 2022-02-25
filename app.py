@@ -55,7 +55,6 @@ roledict = [
 async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
     await bot.change_presence(status=discord.Status.online, activity=discord.Game(name="FACTIONS"))
-    send_message.start()
 
 @bot.event
 async def on_member_update(before, after):
@@ -78,11 +77,6 @@ async def on_member_update(before, after):
                         emb.add_field(name=f"WELCOME TO {rolename.upper()}!", value=f"Say hello to <@{after.id}> and judge _not_ by which Faction they choose.")
                         emb.set_footer(text=f"There are now {len(r.members)} {shortname} within our ranks.")
                         await channel.send(embed=emb)
-
-
-@tasks.loop(minutes=125)  # you can even use hours and minutes
-async def send_message():
-    await bot.get_channel(910579586641834004).send("!d bump")
 
 
 if __name__ == "__main__":
