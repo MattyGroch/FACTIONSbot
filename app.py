@@ -23,7 +23,7 @@ bot = commands.Bot(command_prefix="$",intents=intents)
 roledict = [
     {
         "id": "920712472309149696",
-        "name": "The Heroes",
+        "name": "The Technicians",
         "color": 0x0ccb43,
         "image": "https://cdn.discordapp.com/emojis/933032807511502859.png",
         "emoji": "<:HEROES:933032807511502859>"
@@ -48,6 +48,13 @@ roledict = [
         "color": 0xfbe414,
         "image": "https://cdn.discordapp.com/emojis/933952900433051700.png",
         "emoji": "<:GUARDIANS:933952900433051700>"
+    },
+    {
+        "id": "000",
+        "name": "The Explorers",
+        "color": 0xfbe414,
+        "image": "https://cdn.discordapp.com/emojis/000.png",
+        "emoji": "<:EXPLORERS:000>"
     }
 ]
 
