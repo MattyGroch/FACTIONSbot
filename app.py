@@ -23,31 +23,38 @@ bot = commands.Bot(command_prefix="$",intents=intents)
 roledict = [
     {
         "id": "920712472309149696",
-        "name": "The Heroes",
-        "color": 0x0ccb43,
-        "image": "https://cdn.discordapp.com/emojis/933032807511502859.png",
-        "emoji": "<:HEROES:933032807511502859>"
+        "name": "The Technicians",
+        "color": 0xc80b13,
+        "image": "https://cdn.discordapp.com/emojis/954497804250808480.png",
+        "emoji": "<:technicians:954497804250808480>"
     },
     {
         "id": "920726315617890354",
         "name": "The Pagemasters",
-        "color": 0x0c8cd4,
-        "image": "https://cdn.discordapp.com/emojis/938158364511330425.png",
-        "emoji": "<:PAGEMASTER:938158364511330425>"
+        "color": 0x0c71ff,
+        "image": "https://cdn.discordapp.com/emojis/954497625858654248.png",
+        "emoji": "<:pagemasters:954497625858654248>"
     },
     {
         "id": "920729205774372894",
         "name": "The Architects",
-        "color": 0xa30dcf,
-        "image": "https://cdn.discordapp.com/emojis/933031265907662949.png",
-        "emoji": "<:ARCHITECT:933031265907662949>"
+        "color": 0xa110cf,
+        "image": "https://cdn.discordapp.com/emojis/954497398464450620.png",
+        "emoji": "<:architects:954497398464450620>"
     },
     {
         "id": "920726084507545680",
         "name": "The Guardians",
-        "color": 0xfbe414,
-        "image": "https://cdn.discordapp.com/emojis/933952900433051700.png",
-        "emoji": "<:GUARDIANS:933952900433051700>"
+        "color": 0xfde516,
+        "image": "https://cdn.discordapp.com/emojis/954497721375555625.png",
+        "emoji": "<:guardians:954497721375555625>"
+    },
+    {
+        "id": "951559000082755605",
+        "name": "The Explorers",
+        "color": 0x0bc844,
+        "image": "https://cdn.discordapp.com/emojis/954497544170405959.png",
+        "emoji": "<:explorers:954497544170405959>"
     }
 ]
 
