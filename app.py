@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import logging
 import datetime
 
+# setup logging
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
@@ -13,50 +14,20 @@ logger.addHandler(handler)
 
 load_dotenv()
 
+# load bot vars
 bot_token = os.environ.get("BOT_TOKEN")
 announce_channel = os.environ.get("ANNOUNCE_CHANNEL_ID")
+
+# set up the DB
+db_URL = os.environ.get("DATABASE_URL", None)
+client.pg_con = await asyncpg.create_pool(db_URL)
 
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix="$",intents=intents)
 
-roledict = [
-    {
-        "id": "920712472309149696",
-        "name": "The Technicians",
-        "color": 0xc80b13,
-        "image": "https://cdn.discordapp.com/emojis/954497804250808480.png",
-        "emoji": "<:technicians:954497804250808480>"
-    },
-    {
-        "id": "920726315617890354",
-        "name": "The Pagemasters",
-        "color": 0x0c71ff,
-        "image": "https://cdn.discordapp.com/emojis/954497625858654248.png",
-        "emoji": "<:pagemasters:954497625858654248>"
-    },
-    {
-        "id": "920729205774372894",
-        "name": "The Architects",
-        "color": 0xa110cf,
-        "image": "https://cdn.discordapp.com/emojis/954497398464450620.png",
-        "emoji": "<:architects:954497398464450620>"
-    },
-    {
-        "id": "920726084507545680",
-        "name": "The Guardians",
-        "color": 0xfde516,
-        "image": "https://cdn.discordapp.com/emojis/954497721375555625.png",
-        "emoji": "<:guardians:954497721375555625>"
-    },
-    {
-        "id": "951559000082755605",
-        "name": "The Explorers",
-        "color": 0x0bc844,
-        "image": "https://cdn.discordapp.com/emojis/954497544170405959.png",
-        "emoji": "<:explorers:954497544170405959>"
-    }
-]
+# define dict for roles
+roledict = open('roles.json')
 
 @bot.event
 async def on_ready():
