@@ -21,7 +21,7 @@ load_dotenv()
 bot_token = os.environ.get("BOT_TOKEN")
 announce_channel = os.environ.get("ANNOUNCE_CHANNEL_ID")
 db_URL = os.environ.get("DATABASE_URL", None)
-bot_admin = os.environ.get("BOT_ADMIN")
+bot_admin = int(os.environ.get("BOT_ADMIN"))
 
 # set bot
 intents = discord.Intents.default()
@@ -30,13 +30,12 @@ bot = commands.Bot(command_prefix="$",intents=intents)
 
 # define dict for roles
 print(os.getcwd())
-Z = open('./FACTIONSbot/roles.json')
+Z = open('./roles.json')
 roledict = json.load(Z)
 Z.close()
 
 # connect to db
-# conn = psycopg2.connect(db_URL, sslmode='require')
-conn = psycopg2.connect(db_URL)
+conn = psycopg2.connect(db_URL, sslmode='require')
 
 def execute_query(connection, query):
     connection.autocommit = True
@@ -50,9 +49,9 @@ def execute_query(connection, query):
 def get_info(connection,fid):
     cursor = connection.cursor()
     cursor.execute(f"""SELECT name FROM factions WHERE id = '{fid}'""")
-    name = cursor.fetchone();
+    name = cursor.fetchone()
     cursor.execute(f"""SELECT exp FROM factions WHERE id = '{fid}'""")
-    exp = cursor.fetchone();
+    exp = cursor.fetchone()
     return name[0], exp[0]
 
 def initDB():
@@ -132,13 +131,19 @@ async def on_message(msg):
     if msg.author.bot == True:
         return
     if msg.channel.category_id == 822162540955566121 or not msg.channel.category_id:
+        await bot.process_commands(msg)
         return
     else:
         for x in roledict:
             if x["id"] in [str(y.id) for y in msg.author.roles]:
-                match = x["id"]
-                if match:
-                    add_faction_xp(match,10)
+                user_faction = x["id"]
+                if user_faction:
+                    if msg.channel.category_id == 921399950657601547:
+                        add_faction_xp(user_faction,1)
+                    elif msg.channel.category_id == int(x["category"]):
+                        add_faction_xp(user_faction,10)
+                    else:
+                        add_faction_xp(user_faction,5)
         await bot.process_commands(msg)
 
 
@@ -152,13 +157,22 @@ async def resetall(ctx):
 
 @bot.command()
 async def leaderboard(ctx):
-    list = "**Current Points:**"
+    list = []
+    def sort_key(faction):
+        return faction[1]
     for x in roledict:
-        emoji = x["emoji"]
         fid = x["id"]
-        name, exp = get_info(conn,fid)
-        list += f"\n{emoji} {name} - {exp} Points"
-    await ctx.send(list)
+        list.append(get_info(conn,fid))
+    list.sort(key=sort_key, reverse=True)
+    embed=discord.Embed(title="FACTIONS Leaderboard", color=0xffffff)
+    for z in list:
+        name, points = z[0], z[1]
+        for y in roledict:
+            if name == y["name"]:
+                emoji = y["emoji"]
+        embed.add_field(name=f"{emoji}  {name}", value=f"{points} Points", inline=False)
+    embed.set_footer(text="Who will be crowned champion?")
+    await ctx.send(embed=embed)
 
 
 @bot.event
