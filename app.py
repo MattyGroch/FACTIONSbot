@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 import os
 import json
 from dotenv import load_dotenv
@@ -7,10 +7,12 @@ import logging
 import datetime
 import psycopg2
 from psycopg2 import OperationalError
+import random
+import re
 
 # setup logging
 logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
@@ -37,6 +39,15 @@ Z.close()
 # connect to db
 conn = psycopg2.connect(db_URL, sslmode='require')
 
+
+def diceRoll(count,faces):
+    rolls = []
+    for _ in range(count):
+        roll = random.randint(1, faces)
+        rolls.append(roll)
+    return rolls
+
+
 def execute_query(connection, query):
     connection.autocommit = True
     cursor = connection.cursor()
@@ -46,6 +57,7 @@ def execute_query(connection, query):
     except OperationalError as e:
         print(f"The error '{e}' occurred")
 
+
 def get_info(connection,fid):
     cursor = connection.cursor()
     cursor.execute(f"""SELECT name FROM factions WHERE id = '{fid}'""")
@@ -53,6 +65,7 @@ def get_info(connection,fid):
     cursor.execute(f"""SELECT exp FROM factions WHERE id = '{fid}'""")
     exp = cursor.fetchone()
     return name[0], exp[0]
+
 
 def initDB():
     table_init = """
@@ -87,6 +100,7 @@ def add_faction_xp(fid,amt):
         WHERE id = '{fid}';
         """
     execute_query(conn, query)
+
 
 def reset_faction_xp(fid):
     query = f"""
@@ -164,7 +178,7 @@ async def leaderboard(ctx):
         fid = x["id"]
         list.append(get_info(conn,fid))
     list.sort(key=sort_key, reverse=True)
-    embed=discord.Embed(title="FACTIONS Leaderboard", color=0xffffff)
+    embed = discord.Embed(title="FACTIONS Leaderboard", color=0xffffff)
     for z in list:
         name, points = z[0], z[1]
         for y in roledict:
@@ -173,6 +187,40 @@ async def leaderboard(ctx):
         embed.add_field(name=f"{emoji}  {name}", value=f"{points} Points", inline=False)
     embed.set_footer(text="Who will be crowned champion?")
     await ctx.send(embed=embed)
+
+
+@bot.command()
+async def roll(ctx,arg=None):
+    if arg:
+        check = re.match('(\d+)d(\d+)',arg)
+        if check:
+            dice = int(check.group(1))
+            face = int(check.group(2))
+            roll = diceRoll(dice, face)
+        else:
+            await ctx.send("Use `$roll 2d4` where 2 is the number of dice and 4 is the number of faces.", delete_after=5)
+    else:
+        arg, dice, face = "1d20", 1, 20
+        roll = diceRoll(1, 20)
+    embed = discord.Embed(title=f"Rolling {arg}...", color=0xffffff)
+    c = 0
+    for r in roll:
+        c = c + 1
+        if r == face:
+            r = f"**{r}**"
+        embed.add_field(name=f"Die {c}", value=f"{r}", inline=True)
+    if dice > 1:
+        embed.add_field(name="Total", value=sum(roll), inline=False)
+    await ctx.send(embed=embed)
+
+
+@bot.command()
+async def roll20(ctx):
+    roll = diceRoll(1, 20)
+    for r in roll:
+        await ctx.send("Hi")
+
+
 
 
 @bot.event
