@@ -9,3 +9,4 @@ multidict==5.2.0
 python-dotenv==0.19.2
 typing_extensions==4.0.1
 yarl==1.7.2
+psycopg2==2.9.3
