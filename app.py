@@ -221,6 +221,15 @@ async def roll20(ctx):
         await ctx.send("Hi")
 
 
+@bot.command(aliases=['reminder'])
+@commands.has_any_role(825829260350193686,956989995468615701)
+async def remind(ctx):
+    embed = discord.Embed(color=0xda0023)
+    embed.add_field(
+        name = ":rotating_light: **REMINDER ALERT** :rotating_light:",
+        value="You are **NERDING OUT** in the wrong channel. Visit a **TOPIC** specific channel to continuing your nerd sesh.\n\nWe do this to prevent people from being overwhelmed by conversation that is irrelevant to them.\n\nGo on now with your nerdiness. **GET!**"
+        )
+    await ctx.send(embed=embed)
 
 
 @bot.event
